@@ -25,9 +25,9 @@ function Menu({
   highlightedIndex,
   selectedItem,
   // 🐨 accept listRef, virtualRows, totalHeight
-  listRef, 
-  virtualRows, 
-  totalHeight
+  listRef,
+  virtualRows,
+  totalHeight,
 }) {
   return (
     // 🐨 pass the listRef to the `getMenuProps` prop getter function below:
@@ -51,6 +51,8 @@ function Menu({
       {virtualRows.map(({index, size, start}) => {
         const item = items[index]
 
+        if (!item) return null
+
         return (
           <ListItem
             key={item.id}
@@ -59,7 +61,6 @@ function Menu({
             index={index}
             isSelected={selectedItem?.id === item.id}
             isHighlighted={highlightedIndex === index}
-
             // 🐨 pass a style prop, you can get the inline styles from getVirtualRowStyles()
             // make sure to pass an object with the size (the height of the row)
             // and start (where the row starts relative to the scrollTop of its container).
@@ -92,7 +93,7 @@ function ListItem({
           backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
           fontWeight: isSelected ? 'bold' : 'normal',
           // 🐨 spread the incoming styles onto this inline style object
-          ...style
+          ...style,
         },
         ...props,
       })}
@@ -127,7 +128,7 @@ function App() {
     size: items.length,
     parentRef: listRef,
     estimateSize: React.useCallback(() => 20, []),
-    overscan: 10
+    overscan: 10,
   })
 
   const {
@@ -158,7 +159,8 @@ function App() {
     // 🐨 when the highlightedIndex changes, then tell react-virtual to scroll
     // to that index.
     // 💰 onHighlightedIndexChange: ({highlightedIndex}) => highlightedIndex !== -1 && rowVirtualizer.scrollToIndex(highlightedIndex),
-    onHighlightedIndexChange: ({highlightedIndex}) => highlightedIndex !== -1 && rowVirtualizer.scrollToIndex(highlightedIndex),
+    onHighlightedIndexChange: ({highlightedIndex}) =>
+      highlightedIndex !== -1 && rowVirtualizer.scrollToIndex(highlightedIndex),
   })
 
   return (
