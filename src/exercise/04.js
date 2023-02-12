@@ -125,9 +125,9 @@ function App() {
   //   💰 You can play around with that number, but you probably don't need more than 10.
   // 🐨 you can set the return value of your useVirtual call to `rowVirtualizer`
   const rowVirtualizer = useVirtual({
-    size: items.length,
+    size: items.length, // Total row counts
     parentRef: listRef,
-    estimateSize: React.useCallback(() => 20, []),
+    estimateSize: React.useCallback(() => 20, []), // Each row height
     overscan: 10,
   })
 
